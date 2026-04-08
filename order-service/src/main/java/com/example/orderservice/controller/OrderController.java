@@ -6,6 +6,8 @@ import com.example.orderservice.model.Order;
 import com.example.orderservice.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -29,5 +31,18 @@ public class OrderController {
                 order.getQuantity(),
                 order.getStatus()
         );
+    }
+
+    @GetMapping
+    public List<OrderResponse> getAllOrders() {
+        return orderService.getAllOrders()
+                .stream()
+                .map(order -> new OrderResponse(
+                        order.getId(),
+                        order.getProductId(),
+                        order.getQuantity(),
+                        order.getStatus()
+                ))
+                .toList();
     }
 }

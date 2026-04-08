@@ -1,23 +1,26 @@
 package com.example.orderservice.service;
 
 import com.example.orderservice.model.Order;
+import com.example.orderservice.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderService {
 
-    private final List<Order> orders = new ArrayList<>();
+    private final OrderRepository orderRepository;
+
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     public Order createOrder(String productId, int quantity) {
         Order order = new Order(productId, quantity);
-        orders.add(order);
-        return order;
+        return orderRepository.save(order);
     }
 
     public List<Order> getAllOrders() {
-        return orders;
+        return orderRepository.findAll();
     }
 }
