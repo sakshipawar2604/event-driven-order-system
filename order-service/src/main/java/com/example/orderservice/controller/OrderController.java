@@ -50,7 +50,9 @@ public class OrderController {
                 order.getId(),
                 order.getProductId(),
                 order.getQuantity(),
-                order.getStatus()
+                order.getStatus().name(),
+                order.getCreatedAt(),
+                order.getUpdatedAt()
         );
     }
 }

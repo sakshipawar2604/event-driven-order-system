@@ -1,9 +1,7 @@
 package com.example.orderservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -12,9 +10,17 @@ public class Order {
 
     @Id
     private String id;
+
     private String productId;
+
     private int quantity;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     public Order() {
     }
@@ -23,7 +29,19 @@ public class Order {
         this.id = UUID.randomUUID().toString();
         this.productId = productId;
         this.quantity = quantity;
-        this.status = "CREATED";
+        this.status = OrderStatus.CREATED;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public String getId() {
@@ -38,8 +56,16 @@ public class Order {
         return quantity;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public void setId(String id) {
@@ -54,7 +80,7 @@ public class Order {
         this.quantity = quantity;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 }

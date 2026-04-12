@@ -21,6 +21,18 @@ Services:
 - Payment Service
 - Inventory Service
 
+## Current Order Model
+
+Each order currently stores:
+- order id
+- product id
+- quantity
+- lifecycle status
+- created timestamp
+- updated timestamp
+
+This prepares the service for future async workflows with inventory and payment services.
+
 Infrastructure:
 - Kafka for async events
 - PostgreSQL for persistence
